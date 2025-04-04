@@ -44,7 +44,7 @@ const Model = () => {
     saturation: { value: 1, min: 0, max: 2 }, // Saturation control
     brightness: { value: 1, min: 0, max: 2 }, // Brightness control
     metalness: { value: 0, min: 0, max: 1 }, // Metalness (reflectivity)
-    emissive: { value: "#000014" }, // Emissive color (self-illumination)
+    emissive: { value: "#000025" }, // Emissive color (self-illumination)
     envMapIntensity: { value: 0.5, min: 0, max: 1 }, // Environment map intensity for reflection
     displacementScale: { value: 0.1, min: 0, max: 1 }, // Displacement effect for surface distortion
     distortionAmount: { value: 0.01, min: 0, max: 0.1 }, // Control the distortion amount
