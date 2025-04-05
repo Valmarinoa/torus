@@ -48,7 +48,7 @@ const Model = () => {
   const [roughness, setRoughness] = useState(0);
 
   const materialProps = useControls({
-    thickness: { value: 2, min: 0, max: 5, step: 0.1 },
+    thickness: { value: 1.6, min: 0, max: 5, step: 0.1 },
     transmission: { value: 1, min: 0, max: 1 },
     ior: { value: 1.18, min: 1, max: 2.5 },
     chromaticAberration: { value: 0.03, min: 0, max: 1 },
