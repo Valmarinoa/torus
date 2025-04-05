@@ -40,7 +40,7 @@ const Model = () => {
   const { viewport } = useThree();
   const { nodes } = useGLTF("/images/roca.glb");
 
-  const selvaTexture = useTexture("/images/pintura.jpg");
+  const selvaTexture = useTexture("/images/pintura2.png");
   const envMap = useTexture("/images/selva.jpg");
 
   const [hovered, setHovered] = useState(false);
@@ -108,14 +108,14 @@ const Model = () => {
 
   return (
     <>
-      <Background imageUrl="/images/pintura.jpg" />
-
+      <Background imageUrl="/images/pintura2.png" />
       <group>
         <Text
           font="fonts/HelveticaNeueMedium.otf"
           position={[0, 0, 0]}
           fontSize={0.75}
-          color="#ffe74c"
+          color="#FFD726"
+          material-toneMapped={false}
         >
           cumbre
         </Text>
