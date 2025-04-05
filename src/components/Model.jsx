@@ -8,6 +8,7 @@ import {
 import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { useControls } from "leva";
 import * as THREE from "three";
+import { SRGBColorSpace } from "three"; // ✅ Corrected for Three.js r150+
 
 // Background image component
 const Background = ({ imageUrl }) => {
@@ -29,7 +30,7 @@ const Background = ({ imageUrl }) => {
 const adjustTexture = (texture, color, saturation, brightness) => {
   const textureClone = texture.clone();
   textureClone.color = new THREE.Color(color);
-  textureClone.encoding = THREE.sRGBEncoding;
+  textureClone.colorSpace = SRGBColorSpace; // ✅ New usage instead of sRGBEncoding
   textureClone.needsUpdate = true;
   return textureClone;
 };
@@ -47,7 +48,7 @@ const Model = () => {
   const [roughness, setRoughness] = useState(0);
 
   const materialProps = useControls({
-    thickness: { value: 1.4, min: 0, max: 5, step: 0.1 },
+    thickness: { value: 2, min: 0, max: 5, step: 0.1 },
     transmission: { value: 1, min: 0, max: 1 },
     ior: { value: 1.18, min: 1, max: 2.5 },
     chromaticAberration: { value: 0.03, min: 0, max: 1 },
@@ -131,7 +132,7 @@ const Model = () => {
             {...materialProps}
             roughness={roughness}
             transparent
-            background={adjustedTexture} // 🔧 Commented out for testing
+            // background={adjustedTexture} // 🔧 Commented out for testing
             emissive={new THREE.Color(materialProps.emissive)}
             metalness={materialProps.metalness}
             envMap={envMap}
