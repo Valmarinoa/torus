@@ -6,9 +6,8 @@ import {
   useTexture,
 } from "@react-three/drei";
 import { useFrame, useLoader, useThree } from "@react-three/fiber";
-import { useControls } from "leva";
 import * as THREE from "three";
-import { SRGBColorSpace } from "three"; // ✅ Corrected for Three.js r150+
+import { SRGBColorSpace } from "three";
 
 // Background image component
 const Background = ({ imageUrl }) => {
@@ -30,7 +29,7 @@ const Background = ({ imageUrl }) => {
 const adjustTexture = (texture, color, saturation, brightness) => {
   const textureClone = texture.clone();
   textureClone.color = new THREE.Color(color);
-  textureClone.colorSpace = SRGBColorSpace; // ✅ New usage instead of sRGBEncoding
+  textureClone.colorSpace = SRGBColorSpace;
   textureClone.needsUpdate = true;
   return textureClone;
 };
@@ -47,22 +46,23 @@ const Model = () => {
   const [hovered, setHovered] = useState(false);
   const [roughness, setRoughness] = useState(0);
 
-  const materialProps = useControls({
-    thickness: { value: 1.6, min: 0, max: 5, step: 0.1 },
-    transmission: { value: 1, min: 0, max: 1 },
-    ior: { value: 1.18, min: 1, max: 2.5 },
-    chromaticAberration: { value: 0.03, min: 0, max: 1 },
-    attenuation: { value: 0.3, min: 0, max: 1 },
-    backside: { value: true },
+  // Hardcoded material properties (previously from Leva)
+  const materialProps = {
+    thickness: 1.6,
+    transmission: 1,
+    ior: 1.18,
+    chromaticAberration: 0.03,
+    attenuation: 0.3,
+    backside: true,
     color: "#ebeaea",
-    saturation: { value: 1, min: 0, max: 2 },
-    brightness: { value: 1, min: 0, max: 2 },
-    metalness: { value: 0, min: 0, max: 1 },
-    emissive: { value: "#000000" },
-    envMapIntensity: { value: 0.5, min: 0, max: 1 },
-    displacementScale: { value: 0.1, min: 0, max: 1 },
-    distortionAmount: { value: 0.01, min: 0, max: 0.1 },
-  });
+    saturation: 1,
+    brightness: 1,
+    metalness: 0,
+    emissive: "#000000",
+    envMapIntensity: 0.5,
+    displacementScale: 0.1,
+    distortionAmount: 0.01,
+  };
 
   useFrame(() => {
     const target = hovered ? 0.22 : 0;
@@ -80,21 +80,23 @@ const Model = () => {
 
       mesh.current.scale.x = THREE.MathUtils.lerp(
         mesh.current.scale.x,
-        2.4 + distortion,
+        baseScale + distortion,
         0.1
       );
       mesh.current.scale.y = THREE.MathUtils.lerp(
         mesh.current.scale.y,
-        2.4 + distortion,
+        baseScale + distortion,
         0.1
       );
       mesh.current.scale.z = THREE.MathUtils.lerp(
         mesh.current.scale.z,
-        2.4 + distortion,
+        baseScale + distortion,
         0.1
       );
     }
   });
+
+  const baseScale = Math.min(viewport.width, viewport.height) / 2.75;
 
   // Adjusted texture for inside material (currently not in use)
   const adjustedTexture = adjustTexture(
@@ -118,28 +120,30 @@ const Model = () => {
           cumbre
         </Text>
 
-        <mesh
-          ref={mesh}
-          {...nodes.Sphere}
-          scale={viewport.width / 5}
-          onPointerOver={() => setHovered(true)}
-          onPointerOut={() => setHovered(false)}
-          castShadow
-          receiveShadow
-        >
-          <MeshTransmissionMaterial
-            ref={materialRef}
-            {...materialProps}
-            roughness={roughness}
-            transparent
-            // background={adjustedTexture} // 🔧 Commented out for testing
-            emissive={new THREE.Color(materialProps.emissive)}
-            metalness={materialProps.metalness}
-            envMap={envMap}
-            envMapIntensity={materialProps.envMapIntensity}
-            displacementScale={materialProps.displacementScale}
-          />
-        </mesh>
+        {nodes.Sphere && (
+          <mesh
+            ref={mesh}
+            {...nodes.Sphere}
+            scale={baseScale}
+            onPointerOver={() => setHovered(true)}
+            onPointerOut={() => setHovered(false)}
+            castShadow
+            receiveShadow
+          >
+            <MeshTransmissionMaterial
+              ref={materialRef}
+              {...materialProps}
+              roughness={roughness}
+              transparent
+              // background={adjustedTexture} // 🔧 Still commented for testing
+              emissive={new THREE.Color(materialProps.emissive)}
+              metalness={materialProps.metalness}
+              envMap={envMap}
+              envMapIntensity={materialProps.envMapIntensity}
+              displacementScale={materialProps.displacementScale}
+            />
+          </mesh>
+        )}
       </group>
     </>
   );
