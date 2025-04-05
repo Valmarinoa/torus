@@ -7,10 +7,12 @@ const Scene = dynamic(() => import("@/components/Scene"), { ssr: false });
 export default function Home() {
   return (
     <main className="h-screen">
-      <p className="text-xl absolute right-5 bottom-5  text-[#FFD726]">©2024</p>
-      <p className="text-center text-xl fixed bottom-5 left-1/2 -translate-x-1/2 text-[#FFD726]">
+      <div className="text-xl absolute right-5 bottom-1 text-[#FFD726] rounded-full z-50  backdrop-blur-sm p-6">
+        ©2024
+      </div>
+      <div className="text-center text-xl fixed bottom-1 rounded-full left-1/2 -translate-x-1/2 text-[#FFD726] z-50 backdrop-blur-sm p-6">
         by Valentina Marino
-      </p>
+      </div>
       <Scene />
     </main>
   );

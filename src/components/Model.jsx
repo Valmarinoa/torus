@@ -79,17 +79,17 @@ const Model = () => {
 
       mesh.current.scale.x = THREE.MathUtils.lerp(
         mesh.current.scale.x,
-        2.2 + distortion,
+        2.4 + distortion,
         0.1
       );
       mesh.current.scale.y = THREE.MathUtils.lerp(
         mesh.current.scale.y,
-        2.2 + distortion,
+        2.4 + distortion,
         0.1
       );
       mesh.current.scale.z = THREE.MathUtils.lerp(
         mesh.current.scale.z,
-        2.2 + distortion,
+        2.4 + distortion,
         0.1
       );
     }
