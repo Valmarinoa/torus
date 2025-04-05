@@ -41,7 +41,7 @@ const Model = () => {
   const { viewport } = useThree();
   const { nodes } = useGLTF("/images/roca.glb");
 
-  const selvaTexture = useTexture("/images/pintura3.jpg");
+  const selvaTexture = useTexture("/images/pintura.jpg");
   const envMap = useTexture("/images/selva.jpg");
 
   const [hovered, setHovered] = useState(false);
